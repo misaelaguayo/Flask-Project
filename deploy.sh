@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-
+cd ..
 # Activate service account used for GCP and set project config
 gcloud auth activate-service-account --key-file=gcp-creds.json
 gcloud --quiet config set project search-retrieval-172116 
