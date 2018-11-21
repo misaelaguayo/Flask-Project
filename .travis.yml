@@ -2,6 +2,10 @@ sudo: true
 language: python
 python:
 - '3.6'
+services:
+- docker
+before_install:
+- echo $DECRYPT | gpg --passphrase-fd 0 gcp-creds.json.gpg
 install:
 - pip install pipenv
 - pipenv install --dev
@@ -9,3 +13,6 @@ install:
 script:
 - cd flask_project
 - pipenv run pytest --cov=./ --show-progress ../test
+env:
+  global:
+    secure: a02MxoSw6NHBwIJqVlVOPR3FNCG//rS14vtlF41pd7CRu7kWdANiY2kc5IQmSq0RB2WaUz+LAgesO2pY13kIhV4weLtc7LiXLIu1CJheY0wYtCyM3KBrfqKN5FAkhifwRGqWq4TrFILSg2ggAk+eunkpRlxFWYlbeA7YNmqUy9UKKXxYMKTTL+qqtZwhbFuOcGNdv/y1oTgBKzWfHxF4UTUr9bNNZB4nmbFmdLBkHHJ8aLlaagm1A6JWxUtlixSO0k+W9z0ZjMCS3+Htz4Zd2ng84CaucQrccShx3YX4Hf5X/1paN1y5nZLiEPGbSbAjQ0s7aGxxiPgcEnZG0qcA8rTWBRL1Yjcn4OSkZR5ml4S/GAxJrgKtL90Si/ChMF5R6hoYZatBswpjORJGNzmFX8kMBPWuXgejoVhs9E0iIbnbFOROm7uq+TFvCTT31dbHLibv0vDCV/sDxQS2ln+bNLiZhkO8pYSSV8zsdslVXIhJvk8XL8SG+fT+E+wpjBYkiAqtwM1xOKFQPt8CRh4vZc+ERocqrs7mmI1Pp25/WxxR6jwObbunG4Edt3BxAx7bgq53RBu5ooXQNaDrzZg8eDFb7NxEhQ99gVXVBEL/1oI2mbKIfjwk6/WOQSLL09SSQPGBD99wa1S3i1H+6r6NWjyVAYBUIpIrv0EMJdprfv8=
