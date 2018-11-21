@@ -13,4 +13,4 @@ docker login -u _json_key -p "$(cat gcp-creds.json)" https://gcr.io
 docker push gcr.io/search-retrieval-172116/flaskapp:latest
 
 # Deploy to Google Compute Engine instance
-gcloud compute instances update-container testapp --container-privileged --zone asia-east1-c --tags=flaskapp --machine-type=f1-micro --container-image=gcr.io/search-retrieval-172116/flaskapp:latest
+gcloud compute instances update-container testapp --container-privileged --zone asia-east1-c --container-image=gcr.io/search-retrieval-172116/flaskapp:latest
