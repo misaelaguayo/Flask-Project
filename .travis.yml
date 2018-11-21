@@ -4,6 +4,16 @@ python:
 - '3.6'
 services:
 - docker
+cache:
+  directories:
+  - "$HOME/google-cloud-sdk/"
+before_deploy:
+- gcloud version || true
+- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export
+  CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+- source /home/travis/google-cloud-sdk/path.bash.inc
+- gcloud version
+- gcloud --quiet components update
 before_install:
 - echo $DECRYPT | gpg --passphrase-fd 0 gcp-creds.json.gpg
 install:
@@ -13,6 +23,12 @@ install:
 script:
 - cd flask_project
 - pipenv run pytest --cov=./ --show-progress ../test
+deploy:
+- provider: script
+  script: chmod +x $TRAVIS_BUILD_DIR/deploy.sh && sh $TRAVIS_BUILD_DIR/deploy.sh
+  skip_cleanup: true
+  on:
+    branch: master
 env:
   global:
     secure: SvkvDDvkvlZrWImvcEuQS0ulNvinQZzBznzdkBsWpoR5D68APCCJTbfE8BAzoPnOST71cH+49Y7F3wQ+SYQ0w+50JEzh5B0aP45KaXvK2Q7QYQkSy7EP5XSLksyU/9tznykmO7AbElw1wmhyWDlibnq2MOu1PQDqwH/aS27uJy2TUOrCdPstE202hPZo8lMKJ3+8OZKZJjS2BGCOrGu2uTOQrC3le5kbXPZZfdBLiHR9C8WAh7DbRRAQrcikcm+wJCH429IyGQ/O9Pko69Y+mQiFiCtYmhvGP76qzTrQpI3Tw3Dq9dGQFwVUaB1cF9xqxgEBkdGTpYq0HTFPUA9XyN/u8F1BORG6Vsac9nsyhtMqw0mg0rXlwzmueHrdOMR7nubD/DIrCL1M3Jc3+IhI5ObzpF7YCv1oQHaHwRliwb+k3eBT8gnrXrtzQZULJyCczUBGFe/Ue8lQpCgSRz6l5aw9CMnMoQ5MQuCEp6/sz6uvgbRkRBBJcUaWZk7BV5RTtwCVGrCZ8HP10DxrhO1yksNbHCfjNVjIsUVfm3qojd9vNNvIsgXcMnqC9mdgahU2tbJ19dq7ZLdCc2Kmm+dAimVqIon8haGXI6G57Jg3rDBn4MwEsApsyLvsGAq0cgJOjHNZMy5Fx0bXSE9t3Xlr7N/D45F/WApqBE94PVLQsDU=
