@@ -3,19 +3,14 @@ from flask import Flask, render_template, abort, request,url_for,redirect,flash
 
 from flask_project.models.user import User
 
-import jinja2
+import os
+
+templates_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
 
 def init_app():
-	app = Flask("myapp")
+	app = Flask("myapp", template_folder=templates_folder)
 	app.secret_key = "asldkfjpaosdicmpaosdfh"
-	my_loader = jinja2.ChoiceLoader([
-		app.jinja_loader,
-		jinja2.FileSystemLoader([
-			"./templates/",
-			"../templates",
-		]),
-	])
-	app.jinja_loader = my_loader
+
 	
 	login_manager = LoginManager()
 	login_manager.init_app(app)
