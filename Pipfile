@@ -4,8 +4,19 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
+pymongo = "*"
+dnspython = "*"
+flask-login = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-flask = "*"
+pytest-cov = "*"
+coveralls = "*"
+coverage = "*"
+pytest-progress = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"

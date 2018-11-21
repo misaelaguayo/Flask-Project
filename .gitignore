@@ -1,0 +1,3 @@
+flask_project/htmlcov/*
+flask_project/.coverage
+flask_project/.pytest_cache
